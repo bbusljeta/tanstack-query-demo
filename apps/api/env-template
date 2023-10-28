@@ -1,0 +1,5 @@
+DB_HOST=127.0.0.1
+DB_USER=postgres
+DB_PASSWORD=test1234
+DB_NAME=tanstack-demo.db
+DB_PORT=5432
