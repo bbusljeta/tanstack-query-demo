@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { DbContextModule } from './db-context/db-context.module';
 import { ConfigModule } from '@nestjs/config';
+import { AccountsModule } from './accounts/accounts.module';
+import { AccountsController } from './accounts/accounts.controller';
+import { AccountsService } from './accounts/accounts.service';
 
 @Module({
   imports: [
@@ -11,8 +12,9 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
     }),
     DbContextModule,
+    AccountsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

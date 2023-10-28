@@ -39,3 +39,9 @@ nx serve api
 Open your browser and navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
 # Frontend
+
+## Start the frontend
+
+```bash
+nx serve fe
+```
