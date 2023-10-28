@@ -3,3 +3,4 @@ DB_USER=postgres
 DB_PASSWORD=test1234
 DB_NAME=tanstack-demo.db
 DB_PORT=5432
+API_PORT=3001
