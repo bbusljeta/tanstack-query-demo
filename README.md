@@ -8,17 +8,27 @@
 
 ## Start the database
 
+This will start a postgres database in a docker container.
+
 ```bash
 nx run api:start-db
 ```
 
+## Generate migrations
+
+After schema changes, you can generate a migration with
+
+```bash
+nx run api:generate-migration
+```
+
 ## Execute migrations
+
+To apply migrations, run
 
 ```bash
 nx run api:migrate
 ```
-
-This will start a postgres database in a docker container.
 
 ## Start the api
 
