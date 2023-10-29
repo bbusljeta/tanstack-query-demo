@@ -16,7 +16,9 @@ export class AccountsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} account`;
+    return this.dbContext.query.accounts.findFirst({
+      where: (accounts, { eq }) => eq(accounts.id, id),
+    });
   }
 
   update(id: number, updateAccountDto: UpdateAccountDto) {

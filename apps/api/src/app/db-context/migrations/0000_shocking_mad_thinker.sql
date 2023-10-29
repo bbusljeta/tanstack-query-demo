@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "accounts" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" bigserial PRIMARY KEY NOT NULL,
 	"email" varchar(40) NOT NULL,
 	"first_name" varchar(40) NOT NULL,
 	"last_name" varchar(40) NOT NULL,
