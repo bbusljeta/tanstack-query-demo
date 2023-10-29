@@ -75,6 +75,12 @@
       "options": {
         "command": "cd ./apps/api && npx drizzle-kit generate:pg --config ./drizzle.config.ts"
       }
+    },
+    "seed": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cd ./apps/api/src/app/db-context && npx ts-node seed.ts"
+      }
     }
   },
   "tags": []

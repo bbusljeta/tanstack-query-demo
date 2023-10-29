@@ -30,6 +30,12 @@ To apply migrations, run
 nx run api:migrate
 ```
 
+## Seed the database
+
+```bash
+nx run api:seed
+```
+
 ## Start the api
 
 ```bash

@@ -1,14 +1,16 @@
 import { Pool } from 'pg';
-import * as schema from './schema';
-import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres';
 
+import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres';
+import { accounts } from '../accounts/entities/account.entity';
+
+const schema = { accounts };
 export type Database = NodePgDatabase<typeof schema>;
 
 export class DbContext {
-  constructor(private connectionString: string) {}
+  constructor() {}
 
-  build(): Database {
-    const pool = new Pool({ connectionString: this.connectionString });
+  build(connectionString: string): Database {
+    const pool = new Pool({ connectionString: connectionString });
     return drizzle(pool, { schema, logger: true });
   }
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Accounts } from '../../db-context/schema';
+import { Accounts } from '../entities/account.entity';
 
 export class CreateAccountDto implements Partial<Accounts> {
   @ApiProperty()

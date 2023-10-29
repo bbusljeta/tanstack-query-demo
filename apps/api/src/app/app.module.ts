@@ -3,8 +3,7 @@ import { Module } from '@nestjs/common';
 import { DbContextModule } from './db-context/db-context.module';
 import { ConfigModule } from '@nestjs/config';
 import { AccountsModule } from './accounts/accounts.module';
-import { AccountsController } from './accounts/accounts.controller';
-import { AccountsService } from './accounts/accounts.service';
+import { DbContext } from './db-context/db-context';
 
 @Module({
   imports: [
@@ -15,6 +14,6 @@ import { AccountsService } from './accounts/accounts.service';
     AccountsModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [DbContext],
 })
 export class AppModule {}

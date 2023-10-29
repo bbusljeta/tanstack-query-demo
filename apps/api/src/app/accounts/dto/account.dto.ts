@@ -1,9 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Accounts } from '../../db-context/schema';
+import { Accounts } from '../entities/account.entity';
 
 export class AccountDto implements Accounts {
   @ApiProperty()
-  id: string;
+  avatarUrl: string;
+  @ApiProperty()
+  id: number;
   @ApiProperty()
   email: string;
   @ApiProperty()
