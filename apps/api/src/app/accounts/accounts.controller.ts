@@ -6,12 +6,16 @@ import {
   Param,
   Delete,
   Controller,
+  UsePipes,
+  ValidationPipe,
+  Query,
 } from '@nestjs/common';
 import { AccountsService } from './accounts.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AccountDto } from './dto/account.dto';
+import { Pagination } from '../shared/pagination/pagination';
 
 @ApiTags('accounts')
 @Controller({ version: '1', path: 'accounts' })
@@ -29,8 +33,9 @@ export class AccountsController {
     type: [AccountDto],
   })
   @ApiNotFoundResponse({ description: 'No records found' })
-  findAll() {
-    return this.accountsService.findAll();
+  @UsePipes(new ValidationPipe({ transform: true }))
+  findAll(@Query() query: Pagination) {
+    return this.accountsService.findAll(query.limit, query.offset);
   }
 
   @Get(':id')

@@ -8,4 +8,6 @@ export class CreateAccountDto implements Partial<Accounts> {
   firstName: string;
   @ApiProperty()
   lastName: string;
+  @ApiProperty()
+  avatarUrl: string;
 }

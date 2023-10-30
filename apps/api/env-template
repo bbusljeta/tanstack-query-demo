@@ -1,6 +1,6 @@
 DB_HOST=127.0.0.1
-DB_USER=postgres
-DB_PASSWORD=test1234
-DB_NAME=tanstack-demo.db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=test1234
+POSTGRES_DB=tanstack-demo.db
 DB_PORT=5432
 API_PORT=3001
