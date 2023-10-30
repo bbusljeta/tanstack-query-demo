@@ -9,7 +9,8 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/fe"
+        "outputPath": "dist/apps/fe",
+        "postcssConfig": "apps/fe/postcss.config.js"
       },
       "configurations": {
         "development": {
@@ -62,6 +63,9 @@
       "options": {
         "lintFilePatterns": ["apps/fe/**/*.{ts,tsx,js,jsx}"]
       }
+    },
+    "generateApi": {
+      "command": "curl http://localhost:3001/api-json > ./apps/fe/modules/api/openapi.json && rm -rf ./apps/fe/modules/api/openapi-config && rm -rf ./apps/fe/modules/api/openapi-schemas && npx orval --config ./apps/fe/orval.config.ts && npx prettier --write ./apps/fe/modules/api/ && rm ./apps/fe/modules/api/openapi.json"
     }
   },
   "tags": []
