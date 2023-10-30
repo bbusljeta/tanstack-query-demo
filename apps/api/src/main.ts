@@ -14,6 +14,13 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter()
   );
+
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Accept',
+  });
+
   const configService = app.get(ConfigService);
   const port = configService.get<number>('API_PORT');
 
