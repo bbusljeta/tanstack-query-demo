@@ -15,9 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@fe/*": ["./apps/fe/*"],
+      "@api-e2e/*": ["./apps/api-e2e/*"],
       "@api/*": ["./apps/api/*"],
-      "@api-e2e/*": ["./apps/api-e2e/*"]
+      "@fe/*": ["./apps/fe/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

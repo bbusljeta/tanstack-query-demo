@@ -1,15 +1,17 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsInt, Min } from 'class-validator';
 
-export class Pagination {
+export class PagedQuery {
   @ApiProperty()
+  @ApiPropertyOptional()
   @IsInt()
   @Min(1)
   @Type(() => Number)
   page: number = 1;
 
   @ApiProperty()
+  @ApiPropertyOptional()
   @IsInt()
   @Min(10)
   @Type(() => Number)
