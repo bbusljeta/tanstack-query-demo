@@ -16,6 +16,7 @@ import type {
 } from '@tanstack/react-query';
 import type {
   AccountDto,
+  AccountsControllerFindAll200,
   AccountsControllerFindAllParams,
   CreateAccountDto,
   UpdateAccountDto,
@@ -35,7 +36,7 @@ export const accountsControllerCreate = (
   createAccountDto: BodyType<CreateAccountDto>,
   options?: SecondParameter<typeof customClient>
 ) => {
-  return customClient<void>(
+  return customClient<AccountDto>(
     {
       url: `/v1/accounts`,
       method: 'post',
@@ -47,7 +48,7 @@ export const accountsControllerCreate = (
 };
 
 export const getAccountsControllerCreateMutationOptions = <
-  TError = ErrorType<unknown>,
+  TError = ErrorType<void>,
   TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
@@ -81,10 +82,10 @@ export type AccountsControllerCreateMutationResult = NonNullable<
   Awaited<ReturnType<typeof accountsControllerCreate>>
 >;
 export type AccountsControllerCreateMutationBody = BodyType<CreateAccountDto>;
-export type AccountsControllerCreateMutationError = ErrorType<unknown>;
+export type AccountsControllerCreateMutationError = ErrorType<void>;
 
 export const useAccountsControllerCreate = <
-  TError = ErrorType<unknown>,
+  TError = ErrorType<void>,
   TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
@@ -101,18 +102,18 @@ export const useAccountsControllerCreate = <
 };
 
 export const accountsControllerFindAll = (
-  params: AccountsControllerFindAllParams,
+  params?: AccountsControllerFindAllParams,
   options?: SecondParameter<typeof customClient>,
   signal?: AbortSignal
 ) => {
-  return customClient<AccountDto[]>(
+  return customClient<AccountsControllerFindAll200>(
     { url: `/v1/accounts`, method: 'get', params, signal },
     options
   );
 };
 
 export const getAccountsControllerFindAllQueryKey = (
-  params: AccountsControllerFindAllParams
+  params?: AccountsControllerFindAllParams
 ) => {
   return [`/v1/accounts`, ...(params ? [params] : [])] as const;
 };
@@ -121,7 +122,7 @@ export const getAccountsControllerFindAllQueryOptions = <
   TData = Awaited<ReturnType<typeof accountsControllerFindAll>>,
   TError = ErrorType<void>
 >(
-  params: AccountsControllerFindAllParams,
+  params?: AccountsControllerFindAllParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -158,7 +159,7 @@ export const useAccountsControllerFindAll = <
   TData = Awaited<ReturnType<typeof accountsControllerFindAll>>,
   TError = ErrorType<void>
 >(
-  params: AccountsControllerFindAllParams,
+  params?: AccountsControllerFindAllParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -189,7 +190,7 @@ export const accountsControllerFindOne = (
   options?: SecondParameter<typeof customClient>,
   signal?: AbortSignal
 ) => {
-  return customClient<void>(
+  return customClient<AccountDto>(
     { url: `/v1/accounts/${id}`, method: 'get', signal },
     options
   );
@@ -201,7 +202,7 @@ export const getAccountsControllerFindOneQueryKey = (id: string) => {
 
 export const getAccountsControllerFindOneQueryOptions = <
   TData = Awaited<ReturnType<typeof accountsControllerFindOne>>,
-  TError = ErrorType<unknown>
+  TError = ErrorType<void>
 >(
   id: string,
   options?: {
@@ -239,11 +240,11 @@ export const getAccountsControllerFindOneQueryOptions = <
 export type AccountsControllerFindOneQueryResult = NonNullable<
   Awaited<ReturnType<typeof accountsControllerFindOne>>
 >;
-export type AccountsControllerFindOneQueryError = ErrorType<unknown>;
+export type AccountsControllerFindOneQueryError = ErrorType<void>;
 
 export const useAccountsControllerFindOne = <
   TData = Awaited<ReturnType<typeof accountsControllerFindOne>>,
-  TError = ErrorType<unknown>
+  TError = ErrorType<void>
 >(
   id: string,
   options?: {
@@ -273,7 +274,7 @@ export const accountsControllerUpdate = (
   updateAccountDto: BodyType<UpdateAccountDto>,
   options?: SecondParameter<typeof customClient>
 ) => {
-  return customClient<void>(
+  return customClient<AccountDto>(
     {
       url: `/v1/accounts/${id}`,
       method: 'patch',
@@ -285,7 +286,7 @@ export const accountsControllerUpdate = (
 };
 
 export const getAccountsControllerUpdateMutationOptions = <
-  TError = ErrorType<unknown>,
+  TError = ErrorType<void>,
   TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
@@ -319,10 +320,10 @@ export type AccountsControllerUpdateMutationResult = NonNullable<
   Awaited<ReturnType<typeof accountsControllerUpdate>>
 >;
 export type AccountsControllerUpdateMutationBody = BodyType<UpdateAccountDto>;
-export type AccountsControllerUpdateMutationError = ErrorType<unknown>;
+export type AccountsControllerUpdateMutationError = ErrorType<void>;
 
 export const useAccountsControllerUpdate = <
-  TError = ErrorType<unknown>,
+  TError = ErrorType<void>,
   TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<

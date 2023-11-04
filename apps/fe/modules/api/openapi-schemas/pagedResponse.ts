@@ -6,7 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export type AccountsControllerFindAllParams = {
-  page?: number;
-  pageSize?: number;
-};
+export interface PagedResponse {
+  data: string[];
+  page: number;
+  totalPages: number;
+  totalRows: number;
+}

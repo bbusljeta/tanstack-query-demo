@@ -5,8 +5,8 @@
  * Template API description
  * OpenAPI spec version: 1.0
  */
+import type { AccountDto } from './accountDto';
 
-export type AccountsControllerFindAllParams = {
-  page?: number;
-  pageSize?: number;
+export type AccountsControllerFindAll200AllOf = {
+  data?: AccountDto[];
 };
