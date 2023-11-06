@@ -4,6 +4,10 @@ import { DbContext } from './db-context';
 import { accounts } from '../accounts/entities/account.entity';
 import { faker } from '@faker-js/faker';
 import { config } from 'dotenv';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 
 config();
 
@@ -11,7 +15,10 @@ const { DB_HOST, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, DB_PORT } =
   process.env;
 
 async function seed() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter()
+  );
   const dbContext = app.get(DbContext);
   const connectionString = `postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DB_HOST}:${DB_PORT}/${POSTGRES_DB}?schema=public`;
 
