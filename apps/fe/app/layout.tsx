@@ -1,5 +1,6 @@
 import { ClientProviders } from 'apps/fe/modules/providers/ClientProviders';
 import './global.css';
+import { Navbar } from '@fe/components/Navbar';
 
 export const metadata = {
   title: 'Welcome to fe',
@@ -13,7 +14,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className='overflow-auto'>
+      <body className="overflow-auto">
+        <Navbar />
         <ClientProviders>{children}</ClientProviders>
       </body>
     </html>

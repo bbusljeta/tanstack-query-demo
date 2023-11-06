@@ -6,7 +6,7 @@ module.exports = {
   content: [
     join(
       __dirname,
-      '{src,pages,components,app,modules}/**/*!(*.stories|*.spec).{ts,tsx,html,jsx}',
+      '{src,pages,components,app,modules}/**/*!(*.stories|*.spec).{ts,tsx,html,jsx}'
     ),
     ...createGlobPatternsForDependencies(__dirname),
   ],
@@ -31,39 +31,55 @@ module.exports = {
     },
     extend: {
       colors: {
-        text: {
-          'dark-primary': 'rgba(33, 33, 33, 1)',
-          'dark-secondary': 'rgba(64, 64, 64, 1)',
-          'dark-placeholder': 'rgba(148, 148, 148, 1)',
-          'light-primary': 'rgba(255, 255, 255, 1)',
-          'light-secondary': 'rgba(255, 255, 255, 0.75)',
-          'light-placeholder': 'rgba(255, 255, 255, 0.4)',
+        dark: {
+          DEFAULT: 'rgba(33, 33, 33, 1)',
+          secondary: 'rgba(64, 64, 64, 1)',
+          placeholder: 'rgba(148, 148, 148, 1)',
+        },
+        light: {
+          DEFAULT: 'rgba(255, 255, 255, 1)',
+          secondary: 'rgba(255, 255, 255, 0.75)',
+          placeholder: 'rgba(255, 255, 255, 0.4)',
         },
         icon: {
-          dark: 'rgba(33, 33, 33, 1)',
-          'dark-descriptive': 'rgba(148, 148, 148, 1)',
-          light: 'rgba(255, 255, 255, 1)',
-          'light-descriptive': 'rgba(255, 255, 255, 0.4)',
+          dark: {
+            DEFAULT: 'rgba(33, 33, 33, 1)',
+            descriptive: 'rgba(148, 148, 148, 1)',
+          },
+          light: {
+            DEFAULT: 'rgba(255, 255, 255, 1)',
+            descriptive: 'rgba(255, 255, 255, 0.4)',
+          },
         },
         btn: {
-          dark: 'rgba(12, 12, 12, 1)',
-          'dark-hover': 'rgba(12, 12, 12, 0.85)',
-          light: 'rgba(255, 255, 255, 1)',
-          'light-hover': 'rgba(255, 255, 255, 0.9)',
-          accent: 'rgba(216, 33, 55, 1)',
-          'accent-hover': 'rgba(216, 33, 55, 0.85)',
+          dark: {
+            DEFAULT: 'rgba(12, 12, 12, 1)',
+            hover: 'rgba(12, 12, 12, 0.85)',
+          },
+          light: {
+            DEFAULT: 'rgba(255, 255, 255, 1)',
+            hover: 'rgba(255, 255, 255, 0.9)',
+          },
+          accent: {
+            DEFAULT: 'rgba(216, 33, 55, 1)',
+            hover: 'rgba(216, 33, 55, 0.85)',
+          },
         },
         dropdown: {
-          border: 'rgba(30, 30, 30, 0.08)',
-          'border-active': 'rgba(165, 165, 165, 1)',
+          border: {
+            DEFAULT: 'rgba(30, 30, 30, 0.08)',
+            active: 'rgba(165, 165, 165, 1)',
+            disabled: 'rgba(30, 30, 30, 1)',
+          },
           'background-disabled': 'rgba(249, 249, 249, 1)',
-          'border-disabled': 'rgba(30, 30, 30, 1)',
         },
         input: {
-          border: 'rgba(30, 30, 30, 0.08)',
-          'border-active': 'rgba(165, 165, 165, 1)',
+          border: {
+            DEFAULT: 'rgba(30, 30, 30, 0.08)',
+            active: 'rgba(165, 165, 165, 1)',
+            disabled: 'rgba(30, 30, 30, 1)',
+          },
           'background-disabled': 'rgba(249, 249, 249, 1)',
-          'border-disabled': 'rgba(30, 30, 30, 1)',
         },
         checkbox: {
           border: 'rgba(148, 148, 148, 1)',
@@ -80,25 +96,41 @@ module.exports = {
           dark: 'rgba(30, 30, 30, 0.08)',
           light: 'rgba(255, 255, 255, 0.2)',
         },
-        'primary-red': 'rgba(216, 33, 55, 1)',
-        'primary-black': 'rgba(12, 12, 12, 1)',
-        'primary-white': 'rgba(255, 255, 255, 1)',
+        primary: {
+          red: {
+            DEFAULT: 'rgba(216, 33, 55, 1)',
+          },
+          black: {
+            DEFAULT: 'rgba(12, 12, 12, 1)',
+          },
+          white: {
+            DEFAULT: 'rgba(255, 255, 255, 1)',
+          },
+        },
         'header-border': 'rgba(0, 0, 0, 0.05)',
         switch: 'rgba(21, 7, 75, 0.08)',
         'sticky-background': '#fafafa',
         overlay: 'rgba(0, 0, 0, 0.5)',
         avatar: 'rgb(196, 196, 196)',
-        error: 'rgba(235, 0, 0, 1)',
-        'error-light': 'rgba(252, 218, 221, 1)',
         focused: 'rgba(216, 33, 55, 0.35)',
         accent: 'rgba(216, 33, 55, 1)',
         scrim: 'rgba(12, 12, 12, 0.3)',
-        success: 'rgba(80, 194, 0, 1)',
-        'success-light': 'rgba(221, 238, 206, 1)',
-        info: 'rgba(0, 134, 209, 1)',
-        'info-light': 'rgba(207, 230, 245, 1)',
-        warning: 'rgba(255, 176, 103, 1)',
-        'warning-light': 'rgba(254, 239, 226, 1)',
+        error: {
+          DEFAULT: 'rgba(235, 0, 0, 1)',
+          light: 'rgba(252, 218, 221, 1)',
+        },
+        success: {
+          DEFAULT: 'rgba(80, 194, 0, 1)',
+          light: 'rgba(221, 238, 206, 1)',
+        },
+        info: {
+          DEFAULT: 'rgba(0, 134, 209, 1)',
+          light: 'rgba(207, 230, 245, 1)',
+        },
+        warning: {
+          DEFAULT: 'rgba(255, 176, 103, 1)',
+          light: 'rgba(254, 239, 226, 1)',
+        },
       },
       fontFamily: {
         'display-bold': 'var(--font-display-bold)',
