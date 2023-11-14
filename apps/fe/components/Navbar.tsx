@@ -14,6 +14,11 @@ export const Navbar = () => {
             Cursor based
           </Link>
         </li>
+        <li>
+          <Link href={'/cursor-suspense'} className="underline">
+            Cursor based - SUSPENSE
+          </Link>
+        </li>
       </ul>
     </nav>
   );

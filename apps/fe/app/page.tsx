@@ -37,7 +37,6 @@ export default function Index() {
   );
 
   const { data: accountsPure } = useQuery({
-    enabled: false,
     queryKey: ['accounts_pure', page, pageSize],
     queryFn: ({ queryKey, meta, signal }) => {
       return customClient<AccountDto[]>({
