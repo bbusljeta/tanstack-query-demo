@@ -1,10 +1,11 @@
 'use client';
 
-import { QueryCacheExample } from '@fe/components/QueryCacheExample';
+import { SuspenseExample } from '@fe/components/SuspenseExample';
 import { TablePageSize } from '@fe/components/TablePageSize';
 import { useCompaniesControllerFindAllSuspenseInfinite } from '@fe/modules/api';
 import { useFilterQuery } from '@fe/modules/hooks/useFilterQuery';
 import { queryClient } from '@fe/modules/providers/ClientProviders';
+import { Suspense } from 'react';
 import { JsonToTable } from 'react-json-to-table';
 
 export default function CursorPage() {
@@ -43,7 +44,15 @@ export default function CursorPage() {
   return (
     <div className="flex flex-col gap-5 max-w-6xl m-auto py-10">
       <div>COMPANIES</div>
-      <QueryCacheExample />
+      <Suspense
+        fallback={
+          <div className="flex flex-col gap-5 max-w-6xl m-auto py-10 bg-gray-400 w-full items-center justify-center">
+            LOADING (SUSPENSE)
+          </div>
+        }
+      >
+        <SuspenseExample />
+      </Suspense>
       <div>
         <button
           onClick={() => {

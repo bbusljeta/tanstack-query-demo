@@ -21,6 +21,7 @@ export default defineConfig({
         query: {
           useInfinite: true,
           useQuery: true,
+          useSuspenseQuery: true,
           useSuspenseInfiniteQuery: true,
           useInfiniteQueryParam: 'cursor',
         },

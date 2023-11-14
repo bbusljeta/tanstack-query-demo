@@ -10,6 +10,7 @@ import {
   useMutation,
   useQuery,
   useSuspenseInfiniteQuery,
+  useSuspenseQuery,
 } from '@tanstack/react-query';
 import type {
   InfiniteData,
@@ -23,6 +24,8 @@ import type {
   UseQueryResult,
   UseSuspenseInfiniteQueryOptions,
   UseSuspenseInfiniteQueryResult,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
 } from '@tanstack/react-query';
 import type {
   AccountDto,
@@ -287,6 +290,74 @@ export const useAccountsControllerFindAll = <
   return query;
 };
 
+export const getAccountsControllerFindAllSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof accountsControllerFindAll>>,
+  TError = ErrorType<void>
+>(
+  params?: AccountsControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof accountsControllerFindAll>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getAccountsControllerFindAllQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof accountsControllerFindAll>>
+  > = ({ signal }) => accountsControllerFindAll(params, requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
+    Awaited<ReturnType<typeof accountsControllerFindAll>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type AccountsControllerFindAllSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof accountsControllerFindAll>>
+>;
+export type AccountsControllerFindAllSuspenseQueryError = ErrorType<void>;
+
+export const useAccountsControllerFindAllSuspense = <
+  TData = Awaited<ReturnType<typeof accountsControllerFindAll>>,
+  TError = ErrorType<void>
+>(
+  params?: AccountsControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof accountsControllerFindAll>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getAccountsControllerFindAllSuspenseQueryOptions(
+    params,
+    options
+  );
+
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
+    TData,
+    TError
+  > & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
 export const getAccountsControllerFindAllSuspenseInfiniteQueryOptions = <
   TData = InfiniteData<
     Awaited<ReturnType<typeof accountsControllerFindAll>>,
@@ -532,6 +603,79 @@ export const useAccountsControllerFindOne = <
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;
   };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const getAccountsControllerFindOneSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof accountsControllerFindOne>>,
+  TError = ErrorType<void>
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof accountsControllerFindOne>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getAccountsControllerFindOneQueryKey(id);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof accountsControllerFindOne>>
+  > = ({ signal }) => accountsControllerFindOne(id, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseSuspenseQueryOptions<
+    Awaited<ReturnType<typeof accountsControllerFindOne>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type AccountsControllerFindOneSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof accountsControllerFindOne>>
+>;
+export type AccountsControllerFindOneSuspenseQueryError = ErrorType<void>;
+
+export const useAccountsControllerFindOneSuspense = <
+  TData = Awaited<ReturnType<typeof accountsControllerFindOne>>,
+  TError = ErrorType<void>
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof accountsControllerFindOne>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getAccountsControllerFindOneSuspenseQueryOptions(
+    id,
+    options
+  );
+
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
+    TData,
+    TError
+  > & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -914,6 +1058,75 @@ export const useCompaniesControllerFindAll = <
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;
   };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const getCompaniesControllerFindAllSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof companiesControllerFindAll>>,
+  TError = ErrorType<void>
+>(
+  params?: CompaniesControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof companiesControllerFindAll>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getCompaniesControllerFindAllQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof companiesControllerFindAll>>
+  > = ({ signal }) =>
+    companiesControllerFindAll(params, requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
+    Awaited<ReturnType<typeof companiesControllerFindAll>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type CompaniesControllerFindAllSuspenseQueryResult = NonNullable<
+  Awaited<ReturnType<typeof companiesControllerFindAll>>
+>;
+export type CompaniesControllerFindAllSuspenseQueryError = ErrorType<void>;
+
+export const useCompaniesControllerFindAllSuspense = <
+  TData = Awaited<ReturnType<typeof companiesControllerFindAll>>,
+  TError = ErrorType<void>
+>(
+  params?: CompaniesControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof companiesControllerFindAll>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getCompaniesControllerFindAllSuspenseQueryOptions(
+    params,
+    options
+  );
+
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
+    TData,
+    TError
+  > & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
