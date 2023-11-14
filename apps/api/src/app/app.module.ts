@@ -4,6 +4,7 @@ import { DbContextModule } from './db-context/db-context.module';
 import { ConfigModule } from '@nestjs/config';
 import { AccountsModule } from './accounts/accounts.module';
 import { DbContext } from './db-context/db-context';
+import { CompaniesModule } from './companies/companies.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { DbContext } from './db-context/db-context';
     }),
     DbContextModule,
     AccountsModule,
+    CompaniesModule,
   ],
   controllers: [],
   providers: [DbContext],

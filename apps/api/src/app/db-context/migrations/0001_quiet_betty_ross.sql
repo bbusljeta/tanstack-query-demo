@@ -1,1 +1,0 @@
-ALTER TABLE "accounts" ADD COLUMN "avatar_url" varchar(255) NOT NULL;

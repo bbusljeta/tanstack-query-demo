@@ -8,6 +8,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import { companies } from '../companies/entities/company.entity';
 
 config();
 
@@ -31,6 +32,13 @@ async function seed() {
         firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),
         avatarUrl: faker.image.avatar(),
+      });
+    });
+
+    Array.from({ length: 200 }).map(async () => {
+      await db.insert(companies).values({
+        name: faker.company.name(),
+        slogan: faker.company.catchPhrase(),
       });
     });
   });
