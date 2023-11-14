@@ -9,6 +9,7 @@ export class CompaniesService {
   constructor(@Inject(DB_CONTEXT) private readonly dbContext: Database) {}
 
   async findAll(limit: number, cursor: number) {
+    const computedLimit = limit + 1;
     const data = await this.dbContext
       .select({
         id: companies.id,
@@ -19,14 +20,17 @@ export class CompaniesService {
       })
       .from(companies)
       .orderBy(companies.id)
-      .limit(limit)
+      .limit(computedLimit)
       .where(gt(companies.id, cursor));
 
-    const last = data[data.length - 1];
+    // -2 because we are fetching one extra record (limit + 1) to determine if there is a next page
+    const last = data[data.length - 2];
+    const nextCursor = data.length < computedLimit ? null : last.id;
+    const filteredData = data.slice(0, limit);
 
     return {
-      data,
-      cursor: last?.id ?? 0,
+      data: filteredData,
+      cursor: nextCursor,
     };
   }
 }
