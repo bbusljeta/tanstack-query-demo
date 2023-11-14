@@ -5,19 +5,31 @@
  * Template API description
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useSuspenseInfiniteQuery,
+} from '@tanstack/react-query';
 import type {
+  InfiniteData,
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseQueryOptions,
   UseQueryResult,
+  UseSuspenseInfiniteQueryOptions,
+  UseSuspenseInfiniteQueryResult,
 } from '@tanstack/react-query';
 import type {
   AccountDto,
   AccountsControllerFindAll200,
   AccountsControllerFindAllParams,
+  CompaniesControllerFindAll200,
+  CompaniesControllerFindAllParams,
   CreateAccountDto,
   UpdateAccountDto,
 } from '../openapi-schemas';
@@ -118,6 +130,96 @@ export const getAccountsControllerFindAllQueryKey = (
   return [`/v1/accounts`, ...(params ? [params] : [])] as const;
 };
 
+export const getAccountsControllerFindAllInfiniteQueryOptions = <
+  TData = InfiniteData<
+    Awaited<ReturnType<typeof accountsControllerFindAll>>,
+    AccountsControllerFindAllParams['cursor']
+  >,
+  TError = ErrorType<void>
+>(
+  params?: AccountsControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof accountsControllerFindAll>>,
+        TError,
+        TData,
+        Awaited<ReturnType<typeof accountsControllerFindAll>>,
+        QueryKey,
+        AccountsControllerFindAllParams['cursor']
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getAccountsControllerFindAllQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof accountsControllerFindAll>>,
+    QueryKey,
+    AccountsControllerFindAllParams['cursor']
+  > = ({ signal, pageParam }) =>
+    accountsControllerFindAll(
+      { cursor: pageParam, ...params },
+      requestOptions,
+      signal
+    );
+
+  return { queryKey, queryFn, ...queryOptions } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof accountsControllerFindAll>>,
+    TError,
+    TData,
+    Awaited<ReturnType<typeof accountsControllerFindAll>>,
+    QueryKey,
+    AccountsControllerFindAllParams['cursor']
+  > & { queryKey: QueryKey };
+};
+
+export type AccountsControllerFindAllInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof accountsControllerFindAll>>
+>;
+export type AccountsControllerFindAllInfiniteQueryError = ErrorType<void>;
+
+export const useAccountsControllerFindAllInfinite = <
+  TData = InfiniteData<
+    Awaited<ReturnType<typeof accountsControllerFindAll>>,
+    AccountsControllerFindAllParams['cursor']
+  >,
+  TError = ErrorType<void>
+>(
+  params?: AccountsControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof accountsControllerFindAll>>,
+        TError,
+        TData,
+        Awaited<ReturnType<typeof accountsControllerFindAll>>,
+        QueryKey,
+        AccountsControllerFindAllParams['cursor']
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+): UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getAccountsControllerFindAllInfiniteQueryOptions(
+    params,
+    options
+  );
+
+  const query = useInfiniteQuery(queryOptions) as UseInfiniteQueryResult<
+    TData,
+    TError
+  > & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
 export const getAccountsControllerFindAllQueryOptions = <
   TData = Awaited<ReturnType<typeof accountsControllerFindAll>>,
   TError = ErrorType<void>
@@ -185,6 +287,100 @@ export const useAccountsControllerFindAll = <
   return query;
 };
 
+export const getAccountsControllerFindAllSuspenseInfiniteQueryOptions = <
+  TData = InfiniteData<
+    Awaited<ReturnType<typeof accountsControllerFindAll>>,
+    AccountsControllerFindAllParams['cursor']
+  >,
+  TError = ErrorType<void>
+>(
+  params?: AccountsControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof accountsControllerFindAll>>,
+        TError,
+        TData,
+        Awaited<ReturnType<typeof accountsControllerFindAll>>,
+        QueryKey,
+        AccountsControllerFindAllParams['cursor']
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getAccountsControllerFindAllQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof accountsControllerFindAll>>,
+    QueryKey,
+    AccountsControllerFindAllParams['cursor']
+  > = ({ signal, pageParam }) =>
+    accountsControllerFindAll(
+      { cursor: pageParam, ...params },
+      requestOptions,
+      signal
+    );
+
+  return {
+    queryKey,
+    queryFn,
+    ...queryOptions,
+  } as UseSuspenseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof accountsControllerFindAll>>,
+    TError,
+    TData,
+    Awaited<ReturnType<typeof accountsControllerFindAll>>,
+    QueryKey,
+    AccountsControllerFindAllParams['cursor']
+  > & { queryKey: QueryKey };
+};
+
+export type AccountsControllerFindAllSuspenseInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof accountsControllerFindAll>>
+>;
+export type AccountsControllerFindAllSuspenseInfiniteQueryError =
+  ErrorType<void>;
+
+export const useAccountsControllerFindAllSuspenseInfinite = <
+  TData = InfiniteData<
+    Awaited<ReturnType<typeof accountsControllerFindAll>>,
+    AccountsControllerFindAllParams['cursor']
+  >,
+  TError = ErrorType<void>
+>(
+  params?: AccountsControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof accountsControllerFindAll>>,
+        TError,
+        TData,
+        Awaited<ReturnType<typeof accountsControllerFindAll>>,
+        QueryKey,
+        AccountsControllerFindAllParams['cursor']
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+): UseSuspenseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getAccountsControllerFindAllSuspenseInfiniteQueryOptions(
+    params,
+    options
+  );
+
+  const query = useSuspenseInfiniteQuery(
+    queryOptions
+  ) as UseSuspenseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
 export const accountsControllerFindOne = (
   id: string,
   options?: SecondParameter<typeof customClient>,
@@ -198,6 +394,79 @@ export const accountsControllerFindOne = (
 
 export const getAccountsControllerFindOneQueryKey = (id: string) => {
   return [`/v1/accounts/${id}`] as const;
+};
+
+export const getAccountsControllerFindOneInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof accountsControllerFindOne>>>,
+  TError = ErrorType<void>
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof accountsControllerFindOne>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getAccountsControllerFindOneQueryKey(id);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof accountsControllerFindOne>>
+  > = ({ signal }) => accountsControllerFindOne(id, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof accountsControllerFindOne>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type AccountsControllerFindOneInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof accountsControllerFindOne>>
+>;
+export type AccountsControllerFindOneInfiniteQueryError = ErrorType<void>;
+
+export const useAccountsControllerFindOneInfinite = <
+  TData = InfiniteData<Awaited<ReturnType<typeof accountsControllerFindOne>>>,
+  TError = ErrorType<void>
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof accountsControllerFindOne>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+): UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getAccountsControllerFindOneInfiniteQueryOptions(
+    id,
+    options
+  );
+
+  const query = useInfiniteQuery(queryOptions) as UseInfiniteQueryResult<
+    TData,
+    TError
+  > & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
 };
 
 export const getAccountsControllerFindOneQueryOptions = <
@@ -263,6 +532,79 @@ export const useAccountsControllerFindOne = <
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;
   };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const getAccountsControllerFindOneSuspenseInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof accountsControllerFindOne>>>,
+  TError = ErrorType<void>
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseSuspenseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof accountsControllerFindOne>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getAccountsControllerFindOneQueryKey(id);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof accountsControllerFindOne>>
+  > = ({ signal }) => accountsControllerFindOne(id, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseSuspenseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof accountsControllerFindOne>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type AccountsControllerFindOneSuspenseInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof accountsControllerFindOne>>
+>;
+export type AccountsControllerFindOneSuspenseInfiniteQueryError =
+  ErrorType<void>;
+
+export const useAccountsControllerFindOneSuspenseInfinite = <
+  TData = InfiniteData<Awaited<ReturnType<typeof accountsControllerFindOne>>>,
+  TError = ErrorType<void>
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseSuspenseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof accountsControllerFindOne>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+): UseSuspenseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getAccountsControllerFindOneSuspenseInfiniteQueryOptions(
+    id,
+    options
+  );
+
+  const query = useSuspenseInfiniteQuery(
+    queryOptions
+  ) as UseSuspenseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -401,4 +743,271 @@ export const useAccountsControllerRemove = <
   const mutationOptions = getAccountsControllerRemoveMutationOptions(options);
 
   return useMutation(mutationOptions);
+};
+
+export const companiesControllerFindAll = (
+  params?: CompaniesControllerFindAllParams,
+  options?: SecondParameter<typeof customClient>,
+  signal?: AbortSignal
+) => {
+  return customClient<CompaniesControllerFindAll200>(
+    { url: `/v1/companies`, method: 'get', params, signal },
+    options
+  );
+};
+
+export const getCompaniesControllerFindAllQueryKey = (
+  params?: CompaniesControllerFindAllParams
+) => {
+  return [`/v1/companies`, ...(params ? [params] : [])] as const;
+};
+
+export const getCompaniesControllerFindAllInfiniteQueryOptions = <
+  TData = InfiniteData<
+    Awaited<ReturnType<typeof companiesControllerFindAll>>,
+    CompaniesControllerFindAllParams['cursor']
+  >,
+  TError = ErrorType<void>
+>(
+  params?: CompaniesControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof companiesControllerFindAll>>,
+        TError,
+        TData,
+        Awaited<ReturnType<typeof companiesControllerFindAll>>,
+        QueryKey,
+        CompaniesControllerFindAllParams['cursor']
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getCompaniesControllerFindAllQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof companiesControllerFindAll>>,
+    QueryKey,
+    CompaniesControllerFindAllParams['cursor']
+  > = ({ signal, pageParam }) =>
+    companiesControllerFindAll(
+      { cursor: pageParam, ...params },
+      requestOptions,
+      signal
+    );
+
+  return { queryKey, queryFn, ...queryOptions } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof companiesControllerFindAll>>,
+    TError,
+    TData,
+    Awaited<ReturnType<typeof companiesControllerFindAll>>,
+    QueryKey,
+    CompaniesControllerFindAllParams['cursor']
+  > & { queryKey: QueryKey };
+};
+
+export type CompaniesControllerFindAllInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof companiesControllerFindAll>>
+>;
+export type CompaniesControllerFindAllInfiniteQueryError = ErrorType<void>;
+
+export const useCompaniesControllerFindAllInfinite = <
+  TData = InfiniteData<
+    Awaited<ReturnType<typeof companiesControllerFindAll>>,
+    CompaniesControllerFindAllParams['cursor']
+  >,
+  TError = ErrorType<void>
+>(
+  params?: CompaniesControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof companiesControllerFindAll>>,
+        TError,
+        TData,
+        Awaited<ReturnType<typeof companiesControllerFindAll>>,
+        QueryKey,
+        CompaniesControllerFindAllParams['cursor']
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+): UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getCompaniesControllerFindAllInfiniteQueryOptions(
+    params,
+    options
+  );
+
+  const query = useInfiniteQuery(queryOptions) as UseInfiniteQueryResult<
+    TData,
+    TError
+  > & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const getCompaniesControllerFindAllQueryOptions = <
+  TData = Awaited<ReturnType<typeof companiesControllerFindAll>>,
+  TError = ErrorType<void>
+>(
+  params?: CompaniesControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof companiesControllerFindAll>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getCompaniesControllerFindAllQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof companiesControllerFindAll>>
+  > = ({ signal }) =>
+    companiesControllerFindAll(params, requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof companiesControllerFindAll>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type CompaniesControllerFindAllQueryResult = NonNullable<
+  Awaited<ReturnType<typeof companiesControllerFindAll>>
+>;
+export type CompaniesControllerFindAllQueryError = ErrorType<void>;
+
+export const useCompaniesControllerFindAll = <
+  TData = Awaited<ReturnType<typeof companiesControllerFindAll>>,
+  TError = ErrorType<void>
+>(
+  params?: CompaniesControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof companiesControllerFindAll>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getCompaniesControllerFindAllQueryOptions(
+    params,
+    options
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const getCompaniesControllerFindAllSuspenseInfiniteQueryOptions = <
+  TData = InfiniteData<
+    Awaited<ReturnType<typeof companiesControllerFindAll>>,
+    CompaniesControllerFindAllParams['cursor']
+  >,
+  TError = ErrorType<void>
+>(
+  params?: CompaniesControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof companiesControllerFindAll>>,
+        TError,
+        TData,
+        Awaited<ReturnType<typeof companiesControllerFindAll>>,
+        QueryKey,
+        CompaniesControllerFindAllParams['cursor']
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getCompaniesControllerFindAllQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof companiesControllerFindAll>>,
+    QueryKey,
+    CompaniesControllerFindAllParams['cursor']
+  > = ({ signal, pageParam }) =>
+    companiesControllerFindAll(
+      { cursor: pageParam, ...params },
+      requestOptions,
+      signal
+    );
+
+  return {
+    queryKey,
+    queryFn,
+    ...queryOptions,
+  } as UseSuspenseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof companiesControllerFindAll>>,
+    TError,
+    TData,
+    Awaited<ReturnType<typeof companiesControllerFindAll>>,
+    QueryKey,
+    CompaniesControllerFindAllParams['cursor']
+  > & { queryKey: QueryKey };
+};
+
+export type CompaniesControllerFindAllSuspenseInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof companiesControllerFindAll>>
+>;
+export type CompaniesControllerFindAllSuspenseInfiniteQueryError =
+  ErrorType<void>;
+
+export const useCompaniesControllerFindAllSuspenseInfinite = <
+  TData = InfiniteData<
+    Awaited<ReturnType<typeof companiesControllerFindAll>>,
+    CompaniesControllerFindAllParams['cursor']
+  >,
+  TError = ErrorType<void>
+>(
+  params?: CompaniesControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof companiesControllerFindAll>>,
+        TError,
+        TData,
+        Awaited<ReturnType<typeof companiesControllerFindAll>>,
+        QueryKey,
+        CompaniesControllerFindAllParams['cursor']
+      >
+    >;
+    request?: SecondParameter<typeof customClient>;
+  }
+): UseSuspenseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions =
+    getCompaniesControllerFindAllSuspenseInfiniteQueryOptions(params, options);
+
+  const query = useSuspenseInfiniteQuery(
+    queryOptions
+  ) as UseSuspenseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
 };

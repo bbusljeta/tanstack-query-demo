@@ -10,8 +10,8 @@ export const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link href={'/query-cache'} className="underline">
-            Query cache
+          <Link href={'/cursor'} className="underline">
+            Cursor based
           </Link>
         </li>
       </ul>

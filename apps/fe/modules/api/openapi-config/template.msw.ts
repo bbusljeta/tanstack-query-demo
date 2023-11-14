@@ -48,6 +48,14 @@ export const getAccountsControllerUpdateMock = () => ({
   updatedAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
 });
 
+export const getCompaniesControllerFindAllMock = () => ({
+  cursor: faker.number.int({ min: undefined, max: undefined }),
+  data: Array.from(
+    { length: faker.datatype.number({ min: 1, max: 10 }) },
+    (_, i) => i + 1
+  ).map(() => faker.word.sample()),
+});
+
 export const getTemplateMSW = () => [
   rest.post('*/v1/accounts', (_req, res, ctx) => {
     return res(
@@ -79,5 +87,12 @@ export const getTemplateMSW = () => [
   }),
   rest.delete('*/v1/accounts/:id', (_req, res, ctx) => {
     return res(ctx.delay(1000), ctx.status(200, 'Mocked status'));
+  }),
+  rest.get('*/v1/companies', (_req, res, ctx) => {
+    return res(
+      ctx.delay(1000),
+      ctx.status(200, 'Mocked status'),
+      ctx.json(getCompaniesControllerFindAllMock())
+    );
   }),
 ];

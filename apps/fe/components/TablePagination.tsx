@@ -1,3 +1,4 @@
+import { TablePageSize } from '@fe/components/TablePageSize';
 import clsx from 'clsx';
 import debounce from 'lodash.debounce';
 import ReactPaginate from 'react-paginate';
@@ -72,22 +73,11 @@ export const TablePagination = ({
           }}
         />
       </div>
-      <div>
-        <select
-          className={clsx(
-            'h-8 w-full rounded-md border border-dropdown-border transition-colors duration-300',
-            'placeholder:text-dark-placeholder focus:border-dropdown-border-active focus:outline-none'
-          )}
-          value={currentPageSize}
-          onChange={handlePageSizeChange}
-        >
-          {PAGE_SIZE_OPTIONS.map((pageSizeOption) => (
-            <option key={pageSizeOption} value={pageSizeOption}>
-              {pageSizeOption}/page
-            </option>
-          ))}
-        </select>
-      </div>
+      <TablePageSize
+        currentPageSize={currentPageSize}
+        setPageIndex={setPageIndex}
+        setPageSize={setPageSize}
+      />
       <div className="flex justify-center gap-[10px] items-center">
         <span>Go to:</span>
         <input
@@ -97,6 +87,7 @@ export const TablePagination = ({
           max={totalPages}
           onChange={(e) => debounceInputValue(e.target.valueAsNumber)}
         />
+        T
       </div>
     </div>
   );

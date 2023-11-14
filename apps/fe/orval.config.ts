@@ -5,9 +5,7 @@ export default defineConfig({
     input: {
       target: './modules/api/openapi.json',
       filters: {
-        tags: [
-          'accounts',
-        ],
+        tags: ['accounts', 'companies'],
       },
     },
     output: {
@@ -20,6 +18,12 @@ export default defineConfig({
       prettier: true,
       mock: true,
       override: {
+        query: {
+          useInfinite: true,
+          useQuery: true,
+          useSuspenseInfiniteQuery: true,
+          useInfiniteQueryParam: 'cursor',
+        },
         mutator: {
           path: './custom-client.ts',
           name: 'customClient',
