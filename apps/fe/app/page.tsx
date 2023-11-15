@@ -1,5 +1,6 @@
 'use client';
 
+import { AddNewAccountForm } from '@fe/components/AddNewAccountForm';
 import { QueryCacheExample } from '@fe/components/QueryCacheExample';
 import { TablePagination } from '@fe/components/TablePagination';
 import {
@@ -11,10 +12,13 @@ import { customClient } from '@fe/modules/api/custom-client';
 import { useFilterQuery } from '@fe/modules/hooks/useFilterQuery';
 import { queryClient } from '@fe/modules/providers/ClientProviders';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { JsonToTable } from 'react-json-to-table';
 
 export default function Index() {
   const { params, reroute } = useFilterQuery();
+
+  const [showAddNewAccountForm, setShowAddNewAccountForm] = useState(false);
 
   const page = Number(params.get('page') ?? 1);
   const pageSize = Number(params.get('pageSize') ?? 10);
@@ -97,6 +101,18 @@ export default function Index() {
             totalItems={accounts.totalRows}
           />
         )}
+      </div>
+      <div className="flex flex-col gap-8">
+        <button
+          onClick={() => {
+            setShowAddNewAccountForm(true);
+          }}
+          disabled={isLoading || isFetching}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Add new account
+        </button>
+        {showAddNewAccountForm && <AddNewAccountForm />}
       </div>
       {/* <div>
         pure tanstack:
