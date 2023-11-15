@@ -19,6 +19,11 @@ export const Navbar = () => {
             Cursor based - SUSPENSE
           </Link>
         </li>
+        <li>
+          <Link href={'/mutations'} className="underline">
+            Mutations
+          </Link>
+        </li>
       </ul>
     </nav>
   );
